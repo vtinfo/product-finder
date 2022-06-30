@@ -2,9 +2,64 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>iframe-resizer-testing with-finder</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 <body>
+    <h1>iFrame Resizer Finder Example</h1>
+    <p><a href="../index.html">^ Up a Level</a></p>
+    <p>Use URL params themeVersion (1, 2, or 3) to control the theme version used by the iFramed page, and
+        useMinDims (Y) to determine whether to apply min dimensions to the frame when using version 3.</p>
+    <iframe id="frame" width="100%" scrolling="no" allow="geolocation;"></iframe>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const $frame = $('#frame');
+        const version = params.get('themeVersion') && !isNaN(params.get('themeVersion')) ? Number(params.get('themeVersion')) : 3;
 
+        if (version === 1) {
+            $frame.attr('src', 'http://localhost:8081/finder/web/v2/iframe?custID=VIP');
+        }
+        else if (version === 2) {
+            $frame.attr('src', 'http://localhost:8081/finder/web/v2/iframe?custID=VIP&themeVersion=2');
+        }
+        else {
+            $frame.attr('src', 'http://localhost:8081/finder/web/v2/iframe?custID=VIP&themeVersion=3');
+        }
+    </script>
+
+    <p id="callback"></p>
+
+    <script type="text/javascript" src="../js/iframeResizer.3.6.5.js"></script>
+    <script type="text/javascript">
+        const useMinDims = params.get('useMinDims') === 'Y';
+        iFrameResize({
+            minHeight: useMinDims && version === 3 ? 600 : 0,
+            minWidth: useMinDims && version === 3 ? 340 : 0,
+            log: true,                  // Enable console logging
+            inPageLinks: true,
+            resizedCallback: function (messageData) { // Callback fn when resize is received
+                $('p#callback').html(
+                    '<b>Frame ID:</b> ' + messageData.iframe.id +
+                    ' <b>Height:</b> ' + messageData.height +
+                    ' <b>Width:</b> ' + messageData.width +
+                    ' <b>Event type:</b> ' + messageData.type
+                );
+            },
+            messageCallback: function (messageData) { // Callback fn when message is received
+                $('p#callback').html(
+                    '<b>Frame ID:</b> ' + messageData.iframe.id +
+                    ' <b>Message:</b> ' + messageData.message
+                );
+                alert(messageData.message);
+            },
+            closedCallback: function (id) { // Callback fn when iFrame is closed
+                $('p#callback').html(
+                    '<b>IFrame (</b>' + id +
+                    '<b>) removed from page.</b>'
+                );
+            }
+        });
+
+    </script>
 </body>
 </html>
