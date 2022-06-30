@@ -3,34 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <title>iframe-resizer-testing resizer-only</title>
+    <style>
+        td {
+            padding-right: 1em;
+        }
+
+        td:nth-child(even) {
+            max-width: 450px;
+        }
+    </style>
 </head>
 <body>
     <h1>Resizer-Only Testing Pages</h1>
     <p>All pages use 3.6.5 for the parent page JS and 4.3.2 for the embedded page JS.</p>
     <a href="example/index.html">Example Page</a>
     <p>Tests:</p>
-    <ul>
-        <li><a href="test/_init.html">_init.html</a></li>
-        <li><a href="test/mutationObserver.html">mutationObserver.html</a></li>
-        <li><a href="test/_init_once.html">_init_once.html</a></li>
-        <li><a href="test/nested.html">nested.html</a></li>
-        <li><a href="test/_init_once_async.html">_init_once_async.html</a></li>
-        <li><a href="test/removeIFrame.html">removeIFrame.html</a></li>
-        <li><a href="test/background.html">background.html</a></li>
-        <li><a href="test/resize.contentWidth.html">resize.contentWidth.html</a></li>
-        <li><a href="test/changePage.html">changePage.html</a></li>
-        <li><a href="test/resize.width.html">resize.width.html</a></li>
-        <li><a href="test/close.html">close.html</a></li>
-        <li><a href="test/getId.html">getId.html</a></li>
-        <li><a href="test/scrolling.html">scrolling.html</a></li>
-        <li><a href="test/interval.html">interval.html</a></li>
-        <li><a href="test/sendMessage.html">sendMessage.html</a></li>
-        <li><a href="test/jqueryNoConflict.html">jqueryNoConflict.html</a></li>
-        <li><a href="test/setHeightCalculationMethod.html">setHeightCalculationMethod.html</a></li>
-        <li><a href="test/lateImageLoad.html">lateImageLoad.html</a></li>
-        <li><a href="test/size.html">size.html</a></li>
-        <li><a href="test/margin.html">margin.html</a></li>
-        <li><a href="test/v1.html">v1.html</a></li>
-    </ul>
+    <button onclick="openAll()">Open All (must allow popups)</button>
+    <table>
+        <tr>
+            <td><a href="test/_init.html">_init.html</a></td>
+            <td>(will fail due to CORS if not served by a server)</td>
+        </tr>
+        <tr><td><a href="test/mutationObserver.html">mutationObserver.html</a></td></tr>
+        <tr><td><a href="test/_init_once.html">_init_once.html</a></td></tr>
+        <tr>
+            <td><a href="test/nested.html">nested.html</a></td>
+            <td>(will fail if opened as a background tab and left for too long)</td>
+            <td>
+                (pure v4.3.2 tests also have this issue; the "onMessage function not defined" warning is probably the
+                same issue mentioned on the <a href="example/index.html">Example Page</a>, and thus not a problem)
+            </td>
+        </tr>
+        <tr>
+            <td><a href="test/_init_once_async.html">_init_once_async.html</a></td>
+            <td>(will fail due to CORS if not served by a server)</td>
+        </tr>
+        <tr><td><a href="test/removeIFrame.html">removeIFrame.html</a></td></tr>
+        <tr><td><a href="test/background.html">background.html</a></td></tr>
+        <tr><td><a href="test/resize.contentWidth.html">resize.contentWidth.html</a></td></tr>
+        <tr><td><a href="test/changePage.html">changePage.html</a></td></tr>
+        <tr>
+            <td><a href="test/resize.width.html">resize.width.html</a></td>
+            <td>(will fail due to CORS if not served by a server)</td>
+        </tr>
+        <tr><td><a href="test/close.html">close.html</a></td></tr>
+        <tr><td><a href="test/getId.html">getId.html</a></td></tr>
+        <tr><td><a href="test/scrolling.html"> scrolling.html</a></td></tr>
+        <tr><td><a href="test/interval.html">interval.html</a></td></tr>
+        <tr><td><a href="test/sendMessage.html">sendMessage.html</a></td></tr>
+        <tr><td><a href="test/jqueryNoConflict.html">jqueryNoConflict.html</a></td></tr>
+        <tr>
+            <td><a href="test/setHeightCalculationMethod.html">setHeightCalculationMethod.html</a></td>
+            <td>(has failed previously when opened in background &amp; left for too long, but I can no longer replicate this behavior)</td>
+            <td>(pure v4.3.2 and v3.6.5 tests produce the same warnings, but never fail)</td>
+        </tr>
+        <tr><td><a href="test/lateImageLoad.html">lateImageLoad.html</a></td></tr>
+        <tr><td><a href="test/size.html">size.html</a></td></tr>
+        <tr><td><a href="test/margin.html">margin.html</a></td></tr>
+        <tr><td><a href="test/v1.html">v1.html</a></td></tr>
+    </table>
+
+    <script>
+        const tests = ['test/_init.html','test/mutationObserver.html','test/_init_once.html','test/nested.html','test/_init_once_async.html','test/removeIFrame.html','test/background.html','test/resize.contentWidth.html','test/changePage.html','test/resize.width.html','test/close.html','test/getId.html','test/scrolling.html','test/interval.html','test/sendMessage.html','test/jqueryNoConflict.html','test/setHeightCalculationMethod.html','test/lateImageLoad.html','test/size.html','test/margin.html','test/v1.html'];
+
+        function openAll() {
+            tests.forEach((url) => window.open(url));
+        }
+    </script>
 </body>
 </html>

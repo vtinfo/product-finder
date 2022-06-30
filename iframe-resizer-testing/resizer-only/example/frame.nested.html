@@ -63,34 +63,26 @@
        */
 
       iFrameResize({
-        log: true, // Enable console logging
+        log: true,                  // Enable console logging
         inPageLinks: true,
-        onResized: function(messageData) {
-          // Callback fn when message is received
+        resizedCallback: function (messageData) { // Callback fn when message is received
           $('p#callback').html(
-            '<b>Frame ID:</b> ' +
-              messageData.iframe.id +
-              ' <b>Height:</b> ' +
-              messageData.height +
-              ' <b>Width:</b> ' +
-              messageData.width +
-              ' <b>Event type:</b> ' +
-              messageData.type
-          )
+                  '<b>Frame ID:</b> ' + messageData.iframe.id +
+                  ' <b>Height:</b> ' + messageData.height +
+                  ' <b>Width:</b> ' + messageData.width +
+                  ' <b>Event type:</b> ' + messageData.type
+          );
         },
-        onMessage: function(messageData) {
-          // Callback fn when message is received
-          parentIFrame.sendMessage(
-            messageData.message + ' (via ' + $('iframe').attr('id') + ')'
-          )
+        messageCallback: function (messageData) { // Callback fn when message is received
+          parentIFrame.sendMessage(messageData.message + ' (via ' + $('iframe').attr('id') + ')');
         },
-        onClosed: function(id) {
-          /// Callback fn when iFrame is closed
+        closedCallback: function (id) { /// Callback fn when iFrame is closed
           $('p#callback').html(
-            '<b>IFrame (</b>' + id + '<b>) removed from page.</b>'
-          )
+                  '<b>IFrame (</b>' + id +
+                  '<b>) removed from page.</b>'
+          );
         }
-      })
+      });
     </script>
     <script
       type="text/javascript"

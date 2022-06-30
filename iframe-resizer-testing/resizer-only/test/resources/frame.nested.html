@@ -32,7 +32,7 @@
 
 	iFrameResize({
 		//log                     : true,                  // Enable console logging
-		onResized: function (messageData) { // Callback fn when message is received
+		resizedCallback: function (messageData) { // Callback fn when message is received
 			setTimeout(function () { parentIFrame.sendMessage('nested') }, 50);
 		}
 	});

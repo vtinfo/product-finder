@@ -14,6 +14,12 @@
 	<h2>Automagically resizing iFrame</h2>
 	<p>Resize window or click one of the links in the iFrame to watch it resize. Or try with <a name="anchorParentTest"
 		 href="two.html">two iFrames</a>.</p>
+	<p>autoResize() from frame will not work, as it was broken before
+		<a href="https://github.com/davidjbradshaw/iframe-resizer/pull/723">pull #723</a> in v4.2.1 according to the
+		<a href="https://github.com/davidjbradshaw/iframe-resizer/blob/master/CHANGELOG.md">changelog</a>.
+		Send Message never worked completely when sending from a nested child frame. It should alert the message from
+		the frame, but die on a warning before the response from the parent.
+	</p>
 	<div style="margin:20px;">
 		<iframe src="frame.content.html" width="100%" scrolling="no"></iframe>
 	</div>
@@ -39,7 +45,6 @@
 
 		iFrameResize({
 			log: true,                  // Enable console logging
-			autoResize: false,
 			inPageLinks: true,
 			resizedCallback: function (messageData) { // Callback fn when resize is received
 				$('p#callback').html(
