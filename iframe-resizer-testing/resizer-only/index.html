@@ -15,12 +15,12 @@
 </head>
 <body>
     <h1>Resizer-Only Testing Pages</h1>
-    <p><a href="../index.html">^ Up a Level</a></p>
+    <p><a href="../../index.html">^ Up a Level</a></p>
     <p>All pages use 3.6.5 for the parent page JS and 4.3.2 for the embedded page JS.</p>
     <a href="example/index.html">Example Page</a>
     <p>Tests:</p>
     <button onclick="openAll()">Open All (must allow popups)</button>
-    <table>
+    <table id="tests">
         <tr>
             <td><a href="test/_init.html">_init.html</a></td>
             <td>(will fail due to CORS if not served by a server)</td>
@@ -55,7 +55,7 @@
         <tr><td><a href="test/jqueryNoConflict.html">jqueryNoConflict.html</a></td></tr>
         <tr>
             <td><a href="test/setHeightCalculationMethod.html">setHeightCalculationMethod.html</a></td>
-            <td>(has failed previously when opened in background &amp; left for too long, but I can no longer replicate this behavior)</td>
+            <td>(will fail if opened as a background tab and left for too long)</td>
             <td>(pure v4.3.2 and v3.6.5 tests produce the same warnings, but never fail)</td>
         </tr>
         <tr><td><a href="test/lateImageLoad.html">lateImageLoad.html</a></td></tr>
@@ -65,10 +65,15 @@
     </table>
 
     <script>
-        const tests = ['test/_init.html','test/mutationObserver.html','test/_init_once.html','test/nested.html','test/_init_once_async.html','test/removeIFrame.html','test/background.html','test/resize.contentWidth.html','test/changePage.html','test/resize.width.html','test/close.html','test/getId.html','test/scrolling.html','test/interval.html','test/sendMessage.html','test/jqueryNoConflict.html','test/setHeightCalculationMethod.html','test/lateImageLoad.html','test/size.html','test/margin.html','test/v1.html'];
+        let urls = [];
+        for (const row of document.getElementById('tests').getElementsByTagName('tr')) {
+            urls.push(row.getElementsByTagName('a')[0].href);
+        }
 
         function openAll() {
-            tests.forEach((url) => window.open(url));
+            for (const url of urls) {
+                window.open(url);
+            }
         }
     </script>
 </body>
