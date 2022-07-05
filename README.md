@@ -1,5 +1,5 @@
 # product-finder
-Example usage of Finder
+[Use this content on GitHub Pages here](https://vtinfo.github.io/product-finder/index.html)
 
 ## iframe-resizer-testing
 Example usages & tests of [iFrame Resizer](https://github.com/davidjbradshaw/iframe-resizer) with and without finder. All pages use iFrame Resizer JS v3.6.5 for parent pages and v4.3.2 to embedded pages, to simulate customers being one version behind us.
