@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>iframe-resizer-testing with-finder</title>
+    <style>
+        pre {
+            display: inline;
+        }
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+</head>
+<body>
+    <h1>iFrame Resizer Finder Example</h1>
+    <p><a href="../../index.html">^ Up a Level</a></p>
+    <p>Supports these URL params:</p>
+    <ul>
+        <li><pre>useMinDims</pre> [Y]: whether to apply min dimensions to the frame</li>
+        <li><pre>host</pre> [dev, test, prod]: what host to get finder from ([finder-dev, finder-test, finder].vtinfo.com), if not included "localhost:8081" is used</li>
+        <li><pre>themeVersion</pre> [1, 2, 3]: passed to iFramed page, if ==2 will also pass "theme=bs-paper"</li>
+        <li><pre>custID</pre>: passed to iFramed page, if not included "VIP" is used</li>
+    </ul>
+
+    <iframe id="frame" width="100%" scrolling="no" allow="geolocation;"></iframe>
+
+    <p id="callback"></p>
+
+    <script type="text/javascript" src="../js/iframeResizer.3.6.5.js"></script>
+    <script type="text/javascript">
+        const params = new URLSearchParams(window.location.search);
+        const $frame = $('#frame');
+
+        const useMinDims = params.get('useMinDims') === 'Y';
+        const version = params.get('themeVersion');
+        const host = params.get('host');
+        const custID = params.get('custID');
+
+
+        /* Construct iFrame source */
+        let url = '';
+
+        if (host === 'dev') {
+            url += 'https://finder-dev.vtinfo.com';
+        }
+        else if (host === 'test') {
+            url += 'https://finder-test.vtinfo.com';
+        }
+        else if (host === 'prod') {
+            url += 'https://finder.vtinfo.com';
+        }
+        else {
+            url += 'http://localhost:8081';
+        }
+
+        url += '/finder/web/v2/iframe?custID=' + (custID ? custID : 'VIP');
+
+        if (version === '2') {
+            // Include 'theme' to support servers w/o v3 query params
+            url += '&themeVersion=2&theme=bs-paper';
+        }
+        else if (version === '3') {
+            url += '&themeVersion=3';
+        }
+
+        $frame.attr('src', url);
+
+
+        /* Init iFrame Resizer */
+        iFrameResize({
+            minHeight: useMinDims ? 600 : 0,
+            minWidth: useMinDims ? 340 : 0,
+            log: true,                  // Enable console logging
+            inPageLinks: true,
+            resizedCallback: function (messageData) { // Callback fn when resize is received
+                $('p#callback').html(
+                    '<b>Frame ID:</b> ' + messageData.iframe.id +
+                    ' <b>Height:</b> ' + messageData.height +
+                    ' <b>Width:</b> ' + messageData.width +
+                    ' <b>Event type:</b> ' + messageData.type
+                );
+            },
+            messageCallback: function (messageData) { // Callback fn when message is received
+                $('p#callback').html(
+                    '<b>Frame ID:</b> ' + messageData.iframe.id +
+                    ' <b>Message:</b> ' + messageData.message
+                );
+                alert(messageData.message);
+            },
+            closedCallback: function (id) { // Callback fn when iFrame is closed
+                $('p#callback').html(
+                    '<b>IFrame (</b>' + id +
+                    '<b>) removed from page.</b>'
+                );
+            }
+        });
+
+    </script>
+</body>
+</html>
