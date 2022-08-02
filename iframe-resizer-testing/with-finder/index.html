@@ -21,6 +21,7 @@
         <li><pre>custID</pre>: passed to iFramed page, if not included "VIP" is used</li>
     </ul>
 
+    <p id="host"></p>
     <iframe id="frame" width="100%" scrolling="no" allow="geolocation;"></iframe>
 
     <p id="callback"></p>
@@ -28,7 +29,9 @@
     <script type="text/javascript" src="../js/iframeResizer.3.6.5.js"></script>
     <script type="text/javascript">
         const params = new URLSearchParams(window.location.search);
+
         const $frame = $('#frame');
+        const $hostText = $('#host');
 
         const useMinDims = params.get('useMinDims') === 'Y';
         const version = params.get('themeVersion');
@@ -63,6 +66,8 @@
         }
 
         $frame.attr('src', url);
+
+        $hostText.text(`Fetching finder from "${url}"`);
 
 
         /* Init iFrame Resizer */
