@@ -1,0 +1,18 @@
+<!-- Paste this script into the <head> of the page containing the Brand Finder iframe -->
+<script>
+	(function() {
+		window.dataLayer = window.dataLayer || [];
+		const childOrigin = 'https://www.vtinfo.com';
+		let postCallback = function(event) {
+			if (event.origin !== childOrigin) return;
+			if (event.data !== 'childReady' && !event.data.event) return;
+			if (event.data === 'childReady') {
+				event.source.postMessage('parentReady', event.origin);
+			}
+			if (event.data.event) {
+				window.dataLayer.push(event.data);
+			}
+		};
+		window.addEventListener('message', postCallback);
+	})();
+</script>
