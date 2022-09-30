@@ -2,7 +2,7 @@
 <script>
 	(function() {
 		window.dataLayer = window.dataLayer || [];
-		const childOrigin = 'https://www.vtinfo.com';
+		const childOrigin = 'https://finder.vtinfo.com';
 		let postCallback = function(event) {
 			if (event.origin !== childOrigin) return;
 			if (event.data !== 'childReady' && !event.data.event) return;
