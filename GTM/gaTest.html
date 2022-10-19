@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+	iframe {
+		height: 700px;
+		width: 700px;
+		margin: 50px;
+	}
+</style>
+
+<!-- Google Tag Manager -->
+<script>
+window.dataLayer = window.dataLayer || [];
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-T4NPMZQ');</script>
+<!-- End Google Tag Manager -->
+		
+		<script>
+            (function() {
+			window.dataLayer = window.dataLayer || [];
+                const childOrigin = 'https://finder.vtinfo.com';
+                let postCallback = function(event) {
+                    //if (event.origin !== childOrigin) return;
+                    if (event.data !== 'childReady' && !event.data.event) return;
+                    if (event.data === 'childReady') {
+                        // Send event that parent is ready
+                        event.source.postMessage('parentReady', event.origin);
+                    }
+                    // Push dataLayer message from iframe to dataLayer of parent
+                    if (event.data.event) {
+                        window.dataLayer.push(event.data);
+                    }
+                };
+                // Start listening for messages from child frame
+                window.addEventListener('message', postCallback);
+            })();
+        </script>
+</head>
+<body>
+<h1>Customer Test Page</h1>
+<ul>
+<li>Query string param analytics = GA</li>
+<li>Customer GA tracking ID/googleAnalyticsId = UA-102985-27</li>
+<li>VIP GTM container ID = GTM-WGFBXTK</li>
+</ul>
+<p>Supports the "analytics=GA" URL param for Google Analytics/Universal Analytics customer tracking. This functionality is the same as an implementation not using the "analytics" param, or any "analytics" param != "GTM". With this implementation, all events triggered in the iframe are sent directly to the customer's Google Analytics/Universal Analytics account set in the googleAnalyticsId variable (tracking ID = UA-102985-27), meaning iframe events will not be visible from this parent page as they are not in this page's dataLayer vairable. All events are still available in our VIP GTM account present in the Brand Finder iframe (container ID = GTM-WGFBXTK).</p>
+<p>Fetching finder from "http://localhost:8081/finder/web/v2/iframe?custID=PRX&themeVersion=3&theme=bs-united&analytics=GA"</p>
+<iframe src="http://localhost:8081/finder/web/v2/iframe?custID=PRX&themeVersion=3&theme=bs-united&analytics=GA"></iframe>
+<h2>Google Tag Manager - Event Forwarding Guide</h2>
+<p>This guide is intended to help with Google Tag Manager (GTM) configuration for events forwarded from VIP's Brand Finder iframe application.</p>
+
+<h3>Overview</h3>
+
+</body>
+</html>
