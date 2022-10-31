@@ -10,7 +10,6 @@
 </style>
 
 <!-- Google Tag Manager -->
-<!-- Google Tag Manager -->
 <script>
 window.dataLayer = window.dataLayer || [];
 (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -20,10 +19,30 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-K9477TX');
 </script>
 <!-- End Google Tag Manager -->
-		
-		<script>
+
+	<script>
             (function() {
-			window.dataLayer = window.dataLayer || [];
+		const params = new URLSearchParams(window.location.search);
+		const host = params.get('host');
+	    	const custID = params.get('custID');
+ 		let url = '';
+		if (host === 'dev') {
+		    url = 'https://finder-dev.vtinfo.com';
+		} else if (host === 'test') {
+		    url = 'https://finder-test.vtinfo.com';
+		} else if (host === 'prod') {
+		    url = 'https://finder.vtinfo.com';
+		} else {
+		    url = 'http://localhost:8081';
+		}
+	    	
+	    	url += '/finder/web/v2/iframe?custID='+ (custID ? custID : 'VIP') +'&themeVersion=3&theme=bs-united&analytics=GTM';
+	    	const $frame = $('#frame');
+	        $frame.attr('src', url);
+		    
+	    	$hostText.text(`Fetching finder from "${url}"`);
+		    
+		window.dataLayer = window.dataLayer || [];
                 const childOrigin = 'https://finder.vtinfo.com';
                 let postCallback = function(event) {
                     //if (event.origin !== childOrigin) return;
@@ -50,8 +69,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <li>VIP (iframe page) GTM container ID = GTM-WGFBXTK</li>
 </ul>
 <p>Supports the "analytics=GTM" URL param for Google Tag Manager/Google Analytics customer tracking. With this implementation, all events triggered in the iframe are visible in this parent page's "dataLayer" console variable with a "brandFinder" prefix.</p>
-<p>Fetching finder from "http://localhost:8081/finder/web/v2/iframe?custID=PRX&themeVersion=3&theme=bs-united&analytics=GTM"</p>
-<iframe src="http://localhost:8081/finder/web/v2/iframe?custID=PRX&themeVersion=3&theme=bs-united&analytics=GTM"></iframe>
+
+<p id="host"></p>
+<iframe id="iframe" src="https://finder-test.vtinfo.com/finder/web/v2/iframe?custID=VIP&themeVersion=3&theme=bs-united&analytics=GTM"></iframe>
+
 <h2>Google Tag Manager - Event Forwarding Guide</h2>
 <p>This guide is intended to help with Google Tag Manager (GTM) configuration for events forwarded from VIP's Brand Finder iframe application.</p>
 
