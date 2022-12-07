@@ -1,79 +1,84 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-	iframe {
-		height: 700px;
-		width: 700px;
-		margin: 50px;
-	}
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	
-<!-- Google Tag Manager -->
-<script>
-window.dataLayer = window.dataLayer || [];
-(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-K9477TX');
-</script>
-<!-- End Google Tag Manager -->
+    <style>
+        iframe {
+            height: 700px;
+            width: 700px;
+            margin: 50px;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
-	<script>
-            (function() {
-		const params = new URLSearchParams(window.location.search);
-		const host = params.get('host');
-	    	const custID = params.get('custID');
- 		let url = '';
-		if (host === 'dev') {
-		    url = 'https://finder-dev.vtinfo.com';
-		} else if (host === 'test') {
-		    url = 'https://finder-test.vtinfo.com';
-		} else if (host === 'prod') {
-		    url = 'https://finder.vtinfo.com';
-		} else {
-		    url = 'http://localhost:8081';
-		}
-	    	
-	    	url += '/finder/web/v2/iframe?custID='+ (custID ? custID : 'VIP') +'&themeVersion=3&theme=bs-united&analytics=GTM';
-	    	const $frame = $('#frame');
-	        $frame.attr('src', url);
-		    
-	    	const $hostText = $('#host');
-	    	$hostText.text(`Fetching Finder from "${url}"`);
-		    
-		window.dataLayer = window.dataLayer || [];
-                const childOrigin = 'https://finder.vtinfo.com';
-                let postCallback = function(event) {
-                    //if (event.origin !== childOrigin) return;
-                    if (event.data !== 'childReady' && !event.data.event) return;
-                    if (event.data === 'childReady') {
-                        // Send event that parent is ready
-                        event.source.postMessage('parentReady', event.origin);
-                    }
-                    // Push dataLayer message from iframe to dataLayer of parent
-                    if (event.data.event) {
-                        window.dataLayer.push(event.data);
-                    }
-                };
-                // Start listening for messages from child frame
-                window.addEventListener('message', postCallback);
-            })();
-        </script>
+    <!-- Google Tag Manager -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-K9477TX');
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <script>
+        (function() {
+            const params = new URLSearchParams(window.location.search);
+            const host = params.get('host');
+            const custID = params.get('custID');
+            let url = '';
+            if (host === 'dev') {
+                url = 'https://finder-dev.vtinfo.com';
+            } else if (host === 'test') {
+                url = 'https://finder-test.vtinfo.com';
+            } else if (host === 'prod') {
+                url = 'https://finder.vtinfo.com';
+            } else {
+                url = 'http://localhost:8081';
+            }
+
+            url += '/finder/web/v2/iframe?custID='+ (custID ? custID : 'VIP') +'&theme=bs-united&uuid=LkdDnUTv7ZxJephA4uiGMfcKyMQp10XZ';
+            const $frame = $('#frame');
+            $frame.attr('src', url);
+
+            const $hostText = $('#host');
+            $hostText.text(`Fetching Finder from "${url}"`);
+
+            window.dataLayer = window.dataLayer || [];
+            const childOrigin = 'https://finder-test.vtinfo.com';
+            let postCallback = function(event) {
+                //if (event.origin !== childOrigin) return;
+                if (event.data !== 'childReady' && !event.data.event) return;
+                if (event.data === 'childReady') {
+                    // Send event that parent is ready
+                    event.source.postMessage('parentReady', event.origin);
+                }
+                // Push dataLayer message from iframe to dataLayer of parent
+                if (event.data.event) {
+                    window.dataLayer.push(event.data);
+                }
+            };
+            // Start listening for messages from child frame
+            window.addEventListener('message', postCallback);
+        })();
+    </script>
 </head>
 <body>
 <h1>Customer Test Page</h1>
 <ul>
-<li>Query string param analytics = GTM</li>
-<li>Customer (parent page) GTM container ID = GTM-K9477TX</li>
-<li>VIP (iframe page) GTM container ID = GTM-WGFBXTK</li>
+    <li>Customer (parent page) GTM container ID = GTM-K9477TX</li>
+    <li>VIP (iframe page) GTM container ID = GTM-WGFBXTK (only when implementation Analytics Method = Google Tag Manager)</li>
+    <li>Customer GA tracking ID/googleAnalyticsId (to use when implementation Analytics Method is Google Analytics/UA) = UA-102985-27</li>
 </ul>
-<p>Supports the "analytics=GTM" URL param for Google Tag Manager/Google Analytics customer tracking. With this implementation, all events triggered in the iframe are visible in this parent page's "dataLayer" console variable with a "brandFinder" prefix.</p>
+<p>Supports implementations where Analytics Method = either Google Analytics/UA or Google Tag Manager for event customer
+    tracking. If the implementation is set up with Analytics Method = Google Tag Manager, all events triggered in the iframe are visible in this parent page's "dataLayer" console variable with a "brandFinder" prefix.
+    If the implementation is set up with Analytics Method = Google Analytics/UA, all events triggered in the iframe are sent
+    directly to the customer's Google Analytics/Universal Analytics account set in the Google Analytics or Universal
+    Analytics ID implementation field, meaning iframe events will not be visible from this parent page as they are not in
+    this page's dataLayer variable.</p>
 
 <p id="host"></p>
-<iframe id="iframe" src="https://finder-test.vtinfo.com/finder/web/v2/iframe?custID=VIP&themeVersion=3&theme=bs-united&analytics=GTM"></iframe>
+<iframe id="iframe" src="https://finder-test.vtinfo.com/finder/web/v2/iframe?custID=PRX&themeVersion=3&theme=bs-united&uuid=LkdDnUTv7ZxJephA4uiGMfcKyMQp10XZ"></iframe>
 
 <h2>Google Tag Manager - Event Forwarding Guide</h2>
 <p>This guide is intended to help with Google Tag Manager (GTM) configuration for events forwarded from VIP's Brand Finder iframe application.</p>
@@ -87,7 +92,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <p>Forwarded event values can be added as user-defined variables and sent to any configured tag, just like any other built-in variables. To add a custom variable, go to the container of your implementing page in your GTM account, click "Variables", then under "User-Defined Variables", click "New". Click "Variable Configuration", then under the "Page Variables" section, click "Data Layer Variable". For the "Data Layer Variable Name" field, enter the dot notation path to the desired variable of the event. For example, to get the "event_category" variable, the variable name would be "brandFinder.event_category". All fowarded events will be added as attributes to a "brandFinder" object within the event. For a list of values passed with the brandFinder events, see the Brand Finder documentation. Under the "Data Layer Version" section, make sure "Version 2" is selected. Click "Save" and name the variable something unique, like "dlv - brandFinder event_category". This new variable will now be accessible like any other built-in variables for your GTM container.</p>
 
 <h3>Triggers</h3>
-<p>Since the forwarded events are prefixed with "brandFinder" (e.g. "brandFinder.search"), they will not be automatically tracked by Google Tag Manager. These events can be easily tracked by going to the container of your implementing page in your GTM account, clicking "Triggers", then clicking "New". Click "Trigger Configuration", then under the "Other" section, click "Custom Event". For the "Event name" field, enter "brandFinder." followed by the event you want to act as a trigger (e.g. "brandFinder.click"). It is important that the "event name" matches the value of the "event" property of the event you want to act as a trigger. Some brandFinder events are brandFinder.search, brandFinder.click, brandFinder.page, and brandFinder.select. Visit the Brand Finder documentation for a full list of fired events. For the "This trigger fires on" section, select "All Custom Events". Click "Save", and name the trigger something unique like "bf - click". This event will now act as a trigger for your GTM container.<p/> 
+<p>Since the forwarded events are prefixed with "brandFinder" (e.g. "brandFinder.search"), they will not be automatically tracked by Google Tag Manager. These events can be easily tracked by going to the container of your implementing page in your GTM account, clicking "Triggers", then clicking "New". Click "Trigger Configuration", then under the "Other" section, click "Custom Event". For the "Event name" field, enter "brandFinder." followed by the event you want to act as a trigger (e.g. "brandFinder.click"). It is important that the "event name" matches the value of the "event" property of the event you want to act as a trigger. Some brandFinder events are brandFinder.search, brandFinder.click, brandFinder.page, and brandFinder.select. Visit the Brand Finder documentation for a full list of fired events. For the "This trigger fires on" section, select "All Custom Events". Click "Save", and name the trigger something unique like "bf - click". This event will now act as a trigger for your GTM container.<p/>
 
 <p style="display:inline;">For a more detailed guide on grabbing data from custom variables, check out </p><a href="https://www.youtube.com/watch?v=PV3KBpbKXsA">this guide </a><p style="display:inline;">made by MeasureSchool on Youtube.</p>
 </body>
