@@ -12,3 +12,7 @@ Example page of iFramed finder with iFrame Resizer running. May get finder from 
 iFrame Resizer example page, allows easy testing of most iFrame Resizer features.
 #### test
 QUnit test suite for iFrame Resizer. Host these from a local server before running if you're not running them from Github pages.
+
+## API Example
+
+[Python 3.13](api-python/)
