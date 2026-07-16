@@ -1,4 +1,4 @@
-# VIP Product Finder
+# VIP Brand Finder
 [Use this content on GitHub Pages here](https://vtinfo.github.io/product-finder/index.html)
 
 Light technical documentation. See our full documentation in our [support portal](https://support.vtinfo.com/).
